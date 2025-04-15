@@ -14,10 +14,27 @@ CREATE TABLE posts (
     content VARCHAR(500) NOT NULL,
 -- O banco de dados fica resposável por armazenar a data e horário da criação do post
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--
+
+);
+-- Criar o banco de dados blog_api.
+CREATE DATABASE blog_api;
+
+-- Selecionar o banco de dados criado.
+USE blog_api;
+
+-- Criar a tabela posts no MySQL, incluindo updated_at.
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,                    -- Chave primária
+    title VARCHAR(255) NOT NULL,                          -- Título do post
+    content VARCHAR(500) NOT NULL,                        -- Conteúdo do post
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,       -- Data de criação
+    updated_at TIMESTAMP NULL DEFAULT NULL                -- Data de atualização (pode ser nula)
 );
 
-INSERT INTO posts (title, content) 
-VALUES 
+-- Inserir alguns posts iniciais
+INSERT INTO posts (title, content)
+VALUES
     ('Post 1', 'Este é o conteúdo do primeiro post, contendo informações relevantes para o tema proposto.'),
     ('Post 2', 'Conteúdo do segundo post, com ideias diferentes para engajar mais leitores e discussões.'),
     ('Post 3', 'No terceiro post, abordamos a importância de compartilhar conhecimento e experiências.'),
