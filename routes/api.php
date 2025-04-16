@@ -5,19 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostsController;
 
 /*
-|--------------------------------------------------------------------------
-| API Routes
+|-------------------------------------------------------------------------
+| Rotas de API
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
+| Aqui você pode registrar rotas de API para sua aplicação. Essas
+| rotas são carregadas pelo RouteServiceProvider dentro de um grupo
+| ao qual é atribuído o grupo de middleware "api".
+|-------------------------------------------------------------------------
+| Divirta-se melhorando minha API! github.com/edmarpires9
+|-------------------------------------------------------------------------
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 /*Através do método http GET é possivel buscar um post passando o ID
 Exemplo: http://127.0.0.1:8000/api/posts/1 para obter o post com primary key de valor 1.
 É possivel acessar o link através do navegador

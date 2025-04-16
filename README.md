@@ -5,7 +5,7 @@
 </p>
 
 # Blog-API · Laravel + MySQL
-#### 📦 Versão: 1.1.1
+#### 📦 Versão: 1.3.1
 Uma API RESTful simples desenvolvida com **PHP (Laravel)** e **MySQL**, que permite operações de **CRUD** através de requisições HTTP `GET`, `POST`, `PUT` e `DELETE`. Ideal para estudos, testes com Postman, ou como base para projetos maiores.
 
 ---

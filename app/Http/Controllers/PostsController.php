@@ -5,40 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use function PHPUnit\Framework\isNull;
 
 class PostsController extends Controller
 {
-    //Buscar um post que tenha a chave primaria igual ao $id recebido
-    public function filtrarPostsPorID(Posts $id)
+    //Buscar um post que tenha a chave primaria igual ao integer $id recebido.
+    public function filtrarPostsPorID(int $id)
     {
-        return $id;
+        //Programação orientada a objetos. Na pasta Models temos a classe Posts.php que herda métodos da Model do Laravel.
+        $postModel = new Posts();
+        $post = $postModel->find($id);
+        if (!$post) {
+            return response()->json(['message' => 'Post não existe! verifique o id fornecido!', 'id' => $id], 404);
+        }
+        return response()->json($post);
     }
+
     //Obter todos os posts
     public function retornarTodosPosts()
     {
-        $posts = DB::table('posts')->get();
+        $postsModel = new Posts();
+        $posts = $postsModel->all();
         return response()->json($posts);
     }
+
     //Criar um novo Post
     public function criarNovoPost(Request $request)
     {
-        // Validação simples (opcional, mas recomendado)
+        // Validação
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
-        // Inserção no banco
-        $id = DB::table('posts')->insertGetId([
+        // Criando via Model (Eloquent)
+        $post = Posts::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'created_at' => now(),
         ]);
 
-        return response()->json(['message' => 'Post criado com sucesso!', 'id' => $id], 201);
+        return response()->json(['message' => 'Post criado com sucesso!', 'id' => $post->id], 201);
     }
+
     //Atualizar um post que tenha a chave primaria igual ao $id recebido,
     public function atualizarUmPostPorID(Request $request, $id)
     {
@@ -48,34 +56,34 @@ class PostsController extends Controller
             'content' => 'required|string',
         ]);
 
-        // Verificar se o post existe
-        $post = DB::table('posts')->where('id', $id)->first();
+        // Buscar o post pelo ID
+        $post = Posts::find($id);
 
         if (!$post) {
             return response()->json(['message' => 'Post não encontrado!'], 404);
         }
 
-        // Atualizar o post no banco
-        DB::table('posts')->where('id', $id)->update([
+        // Atualizar os dados usando fill() ou update()
+        $post->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
-            'updated_at' => now(),
         ]);
 
         return response()->json(['message' => 'Post atualizado com sucesso!']);
     }
-    //Apagar um post que tenha a chave primaria igual ao $id recebido.
+
+    //Deleta um post é necessário fornecer o id
     public function apagarUtilizandoID($id)
     {
-        // Verificar se o post existe
-        $post = DB::table('posts')->where('id', $id)->first();
+        // Tenta encontrar o post pelo ID
+        $post = Posts::find($id);
 
         if (!$post) {
-            return response()->json(['message' => 'Post não encontrado!'], 404);
+            return response()->json(['message' => 'Post id => ' . $id . ' não encontrado!'], 404);
         }
 
-        // Excluir o post
-        DB::table('posts')->where('id', $id)->delete();
+        // Deleta o post
+        $post->delete();
 
         return response()->json(['message' => 'Post excluído com sucesso!']);
     }
